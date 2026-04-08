@@ -1,14 +1,14 @@
 import { Scene } from 'phaser';
 
 import InputManager from '@/game/input/manager';
-import { Player } from '@/game/models';
+import EntityManager from '@/game/managers/entities';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
 
     input_manager: InputManager;
-    player: Player;
+    entity_manager: EntityManager;
 
     constructor() {
         super('Game');
@@ -22,13 +22,13 @@ export class Game extends Scene {
         this.background.setAlpha(0.5);
 
         this.input_manager = new InputManager(this);
-        this.player = new Player(this, 512, 384);
+        this.entity_manager = new EntityManager(this);
     }
 
     update(_time: number, _delta: number): void {
         this.input_manager.update();
 
         const state = this.input_manager.get_state();
-        this.player.update(state);
+        this.entity_manager.update(state);
     }
 }
