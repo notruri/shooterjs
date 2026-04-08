@@ -22,7 +22,7 @@ export class Game extends Scene {
         this.background.setAlpha(0.5);
 
         this.input_manager = new InputManager(this);
-        this.entity_manager = new EntityManager(this);
+        this.entity_manager = new EntityManager(this, this.input_manager);
     }
 
     update(_time: number, _delta: number): void {

@@ -1,17 +1,27 @@
-import Entity from '@/game/models/entity';
+import Entity, { Pos } from '@/game/models/entity';
 import { InputState } from '@/game/input/state';
+import { Projectile } from '@/game/factories/entities';
 
 const TEXTURE = 'player';
 
+type ShootFn = (projectile: Projectile) => void;
+
+type Props = {
+    scene: Phaser.Scene;
+    pos: Pos;
+    shoot: ShootFn;
+};
+
 export default class Player extends Entity {
     speed: number;
+    shooting: boolean;
+    shoot: ShootFn;
 
-    has_fired: boolean;
-
-    constructor(scene: Phaser.Scene, x: number, y: number) {
-        super({ scene, texture: TEXTURE, pos: { x, y } });
+    constructor({ scene, pos, shoot }: Props) {
+        super({ scene, pos, texture: TEXTURE });
 
         this.speed = 100;
+        this.shoot = shoot;
     }
 
     update(state: InputState) {
@@ -24,5 +34,18 @@ export default class Player extends Entity {
         const dy = state.aim.y - this.y;
 
         this.setRotation(Math.atan2(dy, dx));
+
+        if (state.firing && !this.shooting) {
+            this.shoot({
+                kind: 'bullet',
+                pos: { x: this.x, y: this.y },
+                angle: this.rotation,
+                speed: 300,
+            });
+
+            this.shooting = true;
+        } else if (!state.firing) {
+            this.shooting = false;
+        }
     }
 }

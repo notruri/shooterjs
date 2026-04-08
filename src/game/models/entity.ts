@@ -1,6 +1,6 @@
 import { Physics, Scene } from 'phaser';
 
-type Pos = {
+export type Pos = {
     x: number;
     y: number;
 };
