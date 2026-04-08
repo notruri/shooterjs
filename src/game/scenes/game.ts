@@ -1,8 +1,14 @@
 import { Scene } from 'phaser';
 
+import InputManager from '@/game/input/manager';
+import { Player } from '@/game/models';
+
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
+
+    input_manager: InputManager;
+    player: Player;
 
     constructor() {
         super('Game');
@@ -15,8 +21,18 @@ export class Game extends Scene {
         this.background = this.add.image(512, 384, 'background');
         this.background.setAlpha(0.5);
 
+        this.input_manager = new InputManager(this);
+        this.player = new Player();
+
         this.input.once('pointerdown', () => {
             this.scene.start('GameOver');
         });
+    }
+
+    update(_time: number, _delta: number): void {
+        this.input_manager.update();
+
+        const state = this.input_manager.get_state();
+        this.player.update(state);
     }
 }
