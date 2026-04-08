@@ -1,0 +1,24 @@
+{
+    "name": "phaser-bun-test",
+    "description": "No description",
+    "version": "1.0.0",
+    "author": "Ruri",
+    "scripts": {
+        "dev": "bunx --bun vite --config vite/config.dev.mjs",
+        "build": "bunx --bun vite build --config vite/config.prod.mjs",
+        "lint": "oxlint",
+        "lint:fix": "oxlint --fix",
+        "pretty": "prettier . --write",
+        "pretty:check": "prettier . --check"
+    },
+    "devDependencies": {
+        "oxlint": "^1.59.0",
+        "prettier": "^3.8.1",
+        "terser": "^5.46.1",
+        "typescript": "~5.7.3",
+        "vite": "^6.4.2"
+    },
+    "dependencies": {
+        "phaser": "^3.90.0"
+    }
+}
