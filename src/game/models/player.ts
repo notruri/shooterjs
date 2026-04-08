@@ -1,11 +1,13 @@
 import Entity from '@/game/models/entity';
 import { InputState } from '@/game/input/state';
 
+const TEXTURE = 'player';
+
 export default class Player extends Entity {
     speed: number;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, 'player');
+        super({ scene, texture: TEXTURE, pos: { x, y } });
 
         this.speed = 100;
     }
