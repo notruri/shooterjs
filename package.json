@@ -1,6 +1,6 @@
 {
-    "name": "phaser-bun-test",
-    "description": "No description",
+    "name": "shooter",
+    "description": "Shooter game made with Phaser",
     "version": "1.0.0",
     "author": "Ruri",
     "scripts": {

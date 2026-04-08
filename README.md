@@ -1,3 +1,3 @@
-## Phaser (Test Game)
+## Shooter
 
-_Evaluation purposes only_
+made this project to test out Phaser
