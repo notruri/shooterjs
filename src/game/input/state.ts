@@ -1,10 +1,10 @@
 type MoveAxis = {
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
 };
 type AimDirection = {
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
 };
 
 export type InputState = {
