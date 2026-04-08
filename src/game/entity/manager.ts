@@ -1,9 +1,9 @@
 import { Scene } from 'phaser';
 
 import { Player } from '@/game/models';
-import { InputState } from '../input/state';
+import { InputState } from '@/game/input/state';
 import Projectile from '@/game/models/projectile';
-import { EntityFactory } from '@/game/factories/entities';
+import EntityFactory from '@/game/entity/factory';
 import InputManager from '@/game/input/manager';
 
 export default class EntityManager {

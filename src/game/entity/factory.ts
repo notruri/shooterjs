@@ -11,7 +11,7 @@ export type Projectile = {
 
 type ProjectileKind = 'bullet';
 
-export class EntityFactory {
+export default class EntityFactory {
     group: Phaser.Physics.Arcade.Group;
 
     constructor(group: Phaser.Physics.Arcade.Group) {

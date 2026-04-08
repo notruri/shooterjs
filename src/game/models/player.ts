@@ -1,6 +1,6 @@
 import Entity, { Pos } from '@/game/models/entity';
 import { InputState } from '@/game/input/state';
-import { Projectile } from '@/game/factories/entities';
+import { Projectile } from '@/game/entity/factory';
 
 const TEXTURE = 'player';
 

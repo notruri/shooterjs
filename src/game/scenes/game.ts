@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 
 import InputManager from '@/game/input/manager';
-import EntityManager from '@/game/managers/entities';
+import EntityManager from '@/game/entity/manager';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
