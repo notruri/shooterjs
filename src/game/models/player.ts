@@ -11,12 +11,12 @@ export default class Player extends Entity {
     }
 
     update(state: InputState) {
-        const x = state.move.x * this.speed;
-        const y = state.move.y * this.speed;
-        this.sprite.setVelocity(x, y);
+        const vx = state.move.x * this.speed;
+        const vy = state.move.y * this.speed;
+        this.sprite.setVelocity(vx, vy);
 
-        const dx = state.aim.x - x;
-        const dy = state.aim.y - y;
+        const dx = state.aim.x - this.sprite.x;
+        const dy = state.aim.y - this.sprite.y;
         this.sprite.setRotation(Math.atan2(dy, dx));
     }
 }
