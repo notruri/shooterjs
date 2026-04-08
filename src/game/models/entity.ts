@@ -11,16 +11,15 @@ export interface EntityProps {
     pos: Pos;
 }
 
-export default class Entity {
+export default class Entity extends Physics.Arcade.Sprite {
     scene: Scene;
-    sprite: Physics.Arcade.Sprite;
 
     constructor({ scene, texture, pos }: EntityProps) {
-        this.scene = scene;
-        this.sprite = scene.physics.add.sprite(pos.x, pos.y, texture);
-    }
+        super(scene, pos.x, pos.y, texture);
 
-    destroy() {
-        this.sprite.destroy();
+        this.scene = scene;
+
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
     }
 }

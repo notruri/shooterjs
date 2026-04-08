@@ -6,6 +6,8 @@ const TEXTURE = 'player';
 export default class Player extends Entity {
     speed: number;
 
+    has_fired: boolean;
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super({ scene, texture: TEXTURE, pos: { x, y } });
 
@@ -15,10 +17,12 @@ export default class Player extends Entity {
     update(state: InputState) {
         const vx = state.move.x * this.speed;
         const vy = state.move.y * this.speed;
-        this.sprite.setVelocity(vx, vy);
 
-        const dx = state.aim.x - this.sprite.x;
-        const dy = state.aim.y - this.sprite.y;
-        this.sprite.setRotation(Math.atan2(dy, dx));
+        this.setVelocity(vx, vy);
+
+        const dx = state.aim.x - this.x;
+        const dy = state.aim.y - this.y;
+
+        this.setRotation(Math.atan2(dy, dx));
     }
 }
