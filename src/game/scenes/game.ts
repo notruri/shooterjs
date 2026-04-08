@@ -22,11 +22,7 @@ export class Game extends Scene {
         this.background.setAlpha(0.5);
 
         this.input_manager = new InputManager(this);
-        this.player = new Player();
-
-        this.input.once('pointerdown', () => {
-            this.scene.start('GameOver');
-        });
+        this.player = new Player(this, 512, 384);
     }
 
     update(_time: number, _delta: number): void {
