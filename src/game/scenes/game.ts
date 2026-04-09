@@ -27,9 +27,6 @@ export class Game extends Scene {
         this.hud = this.cameras.add(0, 0, 1024, 768);
         this.hud.setScroll(0, 0);
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
-
         this.input_manager = new InputManager(this);
 
         const arena = new Arena(1000, 1000);
@@ -44,7 +41,7 @@ export class Game extends Scene {
         this.grid = this.add.graphics();
         this.grid.lineStyle(1, 0xffffff, 0.15);
 
-        const cell = 64;
+        const cell = 100;
         const width = arena.width;
         const height = arena.height;
 
@@ -68,7 +65,7 @@ export class Game extends Scene {
 
         this.camera.ignore(this.pos);
         this.hud.ignore([
-            this.background,
+            // this.background,
             this.grid,
             this.entity_manager.player,
         ]);
