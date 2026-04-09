@@ -5,19 +5,22 @@ import { InputState } from '@/game/input/state';
 import Projectile from '@/game/models/projectile';
 import EntityFactory from '@/game/entity/factory';
 import InputManager from '@/game/input/manager';
+import Arena from '@/game/arena';
 
 export default class EntityManager {
     scene: Scene;
     input: InputManager;
+    arena: Arena;
     player: Player;
     projectiles: Phaser.Physics.Arcade.Group;
     factory: EntityFactory;
 
-    constructor(scene: Scene, input: InputManager) {
+    constructor(scene: Scene, input: InputManager, arena: Arena) {
         this.scene = scene;
         this.input = input;
+        this.arena = arena;
 
-        const player_pos = { x: 512, y: 384 };
+        const player_pos = { x: arena.width / 2, y: arena.height / 2 };
         this.player = new Player({
             scene,
             pos: player_pos,
