@@ -12,20 +12,31 @@ export default class EntityManager {
     input: InputManager;
     arena: Arena;
     player: Player;
-    projectiles: Phaser.Physics.Arcade.Group;
     factory: EntityFactory;
 
-    constructor(scene: Scene, input: InputManager, arena: Arena) {
+    projectiles: Phaser.Physics.Arcade.Group;
+    hud: Phaser.Cameras.Scene2D.Camera;
+
+    constructor(
+        scene: Scene,
+        input: InputManager,
+        arena: Arena,
+        hud: Phaser.Cameras.Scene2D.Camera,
+    ) {
         this.scene = scene;
         this.input = input;
         this.arena = arena;
+        this.hud = hud;
 
         const player_pos = { x: arena.width / 2, y: arena.height / 2 };
         this.player = new Player({
             scene,
             pos: player_pos,
-            shoot: (projectile) =>
-                this.factory.spawn_projectile(scene, projectile),
+            shoot: (projectile) => {
+                this.hud.ignore(
+                    this.factory.spawn_projectile(scene, projectile),
+                );
+            },
         });
 
         this.projectiles = this.scene.physics.add.group({

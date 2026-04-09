@@ -6,11 +6,12 @@ import Arena from '../arena';
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
-    background: Phaser.GameObjects.Image;
+    hud: Phaser.Cameras.Scene2D.Camera;
 
     input_manager: InputManager;
     entity_manager: EntityManager;
 
+    background: Phaser.GameObjects.Image;
     grid: Phaser.GameObjects.Graphics;
     pos: Phaser.GameObjects.Text;
 
@@ -21,17 +22,22 @@ export class Game extends Scene {
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor('#636363');
+        this.camera.setZoom(1.5);
+
+        this.hud = this.cameras.add(0, 0, 1024, 768);
+        this.hud.setScroll(0, 0);
 
         this.background = this.add.image(512, 384, 'background');
         this.background.setAlpha(0.5);
 
         this.input_manager = new InputManager(this);
 
-        const arena = new Arena(5000, 5000);
+        const arena = new Arena(1000, 1000);
         this.entity_manager = new EntityManager(
             this,
             this.input_manager,
             arena,
+            this.hud,
         );
         this.camera.startFollow(this.entity_manager.player);
 
@@ -59,6 +65,13 @@ export class Game extends Scene {
         });
         this.pos.setScrollFactor(0);
         this.pos.setDepth(1000);
+
+        this.camera.ignore(this.pos);
+        this.hud.ignore([
+            this.background,
+            this.grid,
+            this.entity_manager.player,
+        ]);
     }
 
     update(_time: number, _delta: number): void {
