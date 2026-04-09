@@ -25,10 +25,11 @@ export default class Player extends Entity {
     }
 
     update(state: InputState) {
-        const vx = state.move.x * this.speed;
-        const vy = state.move.y * this.speed;
+        const length = Math.hypot(state.move.x, state.move.y);
+        const nx = length > 0 ? state.move.x / length : 0;
+        const ny = length > 0 ? state.move.y / length : 0;
 
-        this.setVelocity(vx, vy);
+        this.setVelocity(nx * this.speed, ny * this.speed);
 
         const dx = state.aim.x - this.x;
         const dy = state.aim.y - this.y;
