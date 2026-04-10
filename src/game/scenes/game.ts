@@ -30,6 +30,9 @@ export class Game extends Scene {
         this.input_manager = new InputManager(this);
 
         const arena = new Arena(1000, 1000);
+        this.physics.world.setBounds(0, 0, arena.width, arena.height);
+        this.camera.setBounds(0, 0, arena.width, arena.height);
+
         this.entity_manager = new EntityManager(
             this,
             this.input_manager,

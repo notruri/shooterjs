@@ -38,6 +38,7 @@ export default class EntityManager {
                 );
             },
         });
+        this.player.setCollideWorldBounds(true);
 
         this.projectiles = this.scene.physics.add.group({
             classType: Projectile,
