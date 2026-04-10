@@ -40,6 +40,7 @@ export default class InputManager {
         const move_y =
             Number(this.keys?.down?.isDown) - Number(this.keys?.up?.isDown);
         const pointer = this.scene.input.activePointer;
+        pointer.updateWorldPoint(this.scene.cameras.main);
 
         this.state.move.x = move_x;
         this.state.move.y = move_y;
