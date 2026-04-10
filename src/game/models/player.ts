@@ -9,6 +9,13 @@ type PlayerProps = ActorProps & {
     shoot: ShootFn;
 };
 
+export type PlayerState = {
+    health?: number;
+    shooting?: boolean;
+    alive?: boolean;
+    speed?: number;
+};
+
 export default class Player extends Actor {
     shooting: boolean = false;
     alive: boolean = true;
@@ -20,7 +27,9 @@ export default class Player extends Actor {
         this.shoot = shoot;
     }
 
-    update(input: InputState) {
+    update(input: InputState, state?: PlayerState) {
+        this.update_state(state);
+
         if (!this.alive) {
             this.reset_state(input);
         }
@@ -57,9 +66,13 @@ export default class Player extends Actor {
         }
     }
 
-    reset_state(state: InputState) {
-        state.move = { x: 0, y: 0 };
-        state.aim = { x: this.x, y: this.y };
-        state.firing = false;
+    update_state(state?: Partial<PlayerState>) {
+        Object.assign(this, state);
+    }
+
+    reset_state(input: InputState) {
+        input.move = { x: 0, y: 0 };
+        input.aim = { x: this.x, y: this.y };
+        input.firing = false;
     }
 }
