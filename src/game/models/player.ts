@@ -1,9 +1,7 @@
 import { Actor } from '@/game/models';
 import { ActorProps } from '@/game/models/actor';
 import { InputState } from '@/game/input/state';
-import { Projectile } from '@/game/entity/factory';
-
-type ShootFn = (projectile: Projectile) => void;
+import { ShootFn } from '@/game/entity/factory';
 
 type PlayerProps = ActorProps & {
     shoot: ShootFn;

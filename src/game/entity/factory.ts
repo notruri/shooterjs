@@ -14,6 +14,8 @@ export type Projectile = {
 
 type ProjectileKind = 'bullet';
 
+export type ShootFn = (projectile: Projectile) => void;
+
 export default class EntityFactory {
     projectiles: Group;
     enemies: Group;
@@ -35,12 +37,14 @@ export default class EntityFactory {
     spawn_enemy(
         scene: Scene,
         pos: { x: number; y: number },
+        shoot: ShootFn,
         callback: (enemy: Enemy) => void,
     ) {
         const enemy = new Enemy({
             scene: scene,
             pos,
             speed: 60,
+            shoot,
         });
 
         enemy.setCollideWorldBounds(true);

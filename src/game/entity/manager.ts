@@ -4,9 +4,9 @@ import { InputState } from '@/game/input/state';
 import { Enemy, Player } from '@/game/models';
 import { PlayerController } from '@/game/entity/controller';
 import Arena from '@/game/arena';
-import EntityFactory from '@/game/entity/factory';
+import EntityFactory, { Projectile } from '@/game/entity/factory';
 import InputManager from '@/game/input/manager';
-import Projectile from '@/game/models/projectile';
+import ProjectileEnt from '../models/projectile';
 
 export default class EntityManager {
     scene: Scene;
@@ -37,7 +37,7 @@ export default class EntityManager {
         });
 
         this.projectiles = this.scene.physics.add.group({
-            classType: Projectile,
+            classType: ProjectileEnt,
         });
 
         this.initialize_local_player(scene, arena);
@@ -61,8 +61,17 @@ export default class EntityManager {
     spawn_enemy() {
         if (!this.scene) return;
 
-        this.factory.spawn_enemy(this.scene, { x: 100, y: 100 }, (enemy) =>
-            this.hud.ignore(enemy),
+        const shoot = (projectile: Projectile) => {
+            this.hud.ignore(
+                this.factory.spawn_projectile(this.scene, projectile),
+            );
+        };
+
+        this.factory.spawn_enemy(
+            this.scene,
+            { x: 100, y: 100 },
+            shoot,
+            (enemy) => this.hud.ignore(enemy),
         );
     }
 
@@ -88,10 +97,9 @@ export default class EntityManager {
             this.projectiles,
             this.enemies,
             (projectile, enemy) => {
-                const bullet = projectile as Projectile;
                 const target = enemy as Enemy;
 
-                bullet.destroy();
+                projectile.destroy();
                 target.health -= 10;
 
                 if (target.health <= 0) {
