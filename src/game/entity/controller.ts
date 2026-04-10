@@ -4,7 +4,7 @@ import { InputState } from '@/game/input/state';
 export class PlayerController {
     constructor() {}
 
-    update(player: Player, state: InputState) {
-        player.update(state);
+    update(player: Player, input: InputState) {
+        player.update(input);
     }
 }

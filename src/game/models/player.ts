@@ -16,16 +16,17 @@ export default class Player extends Actor {
 
     constructor({ shoot, texture = 'player', ...props }: PlayerProps) {
         super({ ...props, texture });
+
         this.shoot = shoot;
     }
 
-    update(state: InputState) {
+    update(input: InputState) {
         if (!this.alive) {
-            this.reset_state(state);
+            this.reset_state(input);
         }
 
-        this.move(state);
-        this.fire(state);
+        this.move(input);
+        this.fire(input);
     }
 
     move(state: InputState) {
