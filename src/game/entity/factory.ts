@@ -32,7 +32,11 @@ export default class EntityFactory {
         }
     }
 
-    spawn_enemy(scene: Scene, pos: { x: number; y: number }) {
+    spawn_enemy(
+        scene: Scene,
+        pos: { x: number; y: number },
+        callback: (enemy: Enemy) => void,
+    ) {
         const enemy = new Enemy({
             scene: scene,
             pos,
@@ -42,7 +46,7 @@ export default class EntityFactory {
         enemy.setCollideWorldBounds(true);
         this.enemies.add(enemy);
 
-        return enemy;
+        callback(enemy);
     }
 
     private spawn_bullet(scene: Scene, projectile: Projectile) {

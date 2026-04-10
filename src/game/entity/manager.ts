@@ -32,8 +32,6 @@ export default class EntityManager {
         this.arena = arena;
         this.hud = hud;
 
-        this.initialize_local_player(scene, arena);
-
         this.enemies = this.scene.physics.add.group({
             classType: Enemy,
         });
@@ -42,13 +40,13 @@ export default class EntityManager {
             classType: Projectile,
         });
 
+        this.initialize_local_player(scene, arena);
+        this.init_hitboxes();
+
         this.factory = new EntityFactory(this.projectiles, this.enemies);
         this.player_controller = new PlayerController();
 
-        this.scene.physics.add.collider(this.player, this.enemies);
-        this.scene.physics.add.collider(this.enemies, this.enemies);
-
-        this.hud.ignore(this.factory.spawn_enemy(scene, { x: 100, y: 100 }));
+        this.spawn_enemy();
     }
 
     update(state: InputState) {
@@ -58,6 +56,14 @@ export default class EntityManager {
             const enemy = child as Enemy;
             enemy.update(this.player);
         }
+    }
+
+    spawn_enemy() {
+        if (!this.scene) return;
+
+        this.factory.spawn_enemy(this.scene, { x: 100, y: 100 }, (enemy) =>
+            this.hud.ignore(enemy),
+        );
     }
 
     private initialize_local_player(scene: Scene, arena: Arena) {
@@ -72,5 +78,27 @@ export default class EntityManager {
             },
         });
         this.player.setCollideWorldBounds(true);
+    }
+
+    private init_hitboxes() {
+        this.scene.physics.add.collider(this.player, this.enemies);
+        this.scene.physics.add.collider(this.enemies, this.enemies);
+
+        this.scene.physics.add.overlap(
+            this.projectiles,
+            this.enemies,
+            (projectile, enemy) => {
+                const bullet = projectile as Projectile;
+                const target = enemy as Enemy;
+
+                bullet.destroy();
+                target.health -= 10;
+
+                if (target.health <= 0) {
+                    target.alive = false;
+                    target.destroy();
+                }
+            },
+        );
     }
 }
