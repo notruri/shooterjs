@@ -45,6 +45,9 @@ export default class EntityManager {
         this.factory = new EntityFactory(this.projectiles, this.enemies);
         this.player_controller = new PlayerController();
 
+        this.scene.physics.add.collider(this.player, this.enemies);
+        this.scene.physics.add.collider(this.enemies, this.enemies);
+
         this.hud.ignore(this.factory.spawn_enemy(scene, { x: 100, y: 100 }));
     }
 
