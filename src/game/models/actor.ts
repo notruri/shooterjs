@@ -15,5 +15,6 @@ export default class Actor extends Entity {
 
     constructor({ texture = 'actor', ...props }: ActorProps) {
         super({ ...props, texture });
+        Object.assign(this, props);
     }
 }

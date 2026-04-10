@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 
 import { InputState } from '@/game/input/state';
-import { Player } from '@/game/models';
+import { Enemy, Player } from '@/game/models';
 import { PlayerController } from '@/game/entity/controller';
 import Arena from '@/game/arena';
 import EntityFactory from '@/game/entity/factory';
@@ -17,6 +17,7 @@ export default class EntityManager {
     factory: EntityFactory;
     player_controller: PlayerController;
 
+    enemies: Phaser.Physics.Arcade.Group;
     projectiles: Phaser.Physics.Arcade.Group;
     hud: Phaser.Cameras.Scene2D.Camera;
 
@@ -33,16 +34,27 @@ export default class EntityManager {
 
         this.initialize_local_player(scene, arena);
 
+        this.enemies = this.scene.physics.add.group({
+            classType: Enemy,
+        });
+
         this.projectiles = this.scene.physics.add.group({
             classType: Projectile,
         });
 
-        this.factory = new EntityFactory(this.projectiles);
+        this.factory = new EntityFactory(this.projectiles, this.enemies);
         this.player_controller = new PlayerController();
+
+        this.hud.ignore(this.factory.spawn_enemy(scene, { x: 100, y: 100 }));
     }
 
     update(state: InputState) {
         this.player_controller.update(this.player, state);
+
+        for (const child of this.enemies.getChildren()) {
+            const enemy = child as Enemy;
+            enemy.update(this.player);
+        }
     }
 
     private initialize_local_player(scene: Scene, arena: Arena) {

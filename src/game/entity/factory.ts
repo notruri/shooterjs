@@ -1,6 +1,9 @@
 import { Scene } from 'phaser';
 import Bullet from '@/game/models/bullet';
 import { Pos } from '@/game/models/entity';
+import { Enemy } from '@/game/models';
+
+type Group = Phaser.Physics.Arcade.Group;
 
 export type Projectile = {
     kind: ProjectileKind;
@@ -12,10 +15,12 @@ export type Projectile = {
 type ProjectileKind = 'bullet';
 
 export default class EntityFactory {
-    group: Phaser.Physics.Arcade.Group;
+    projectiles: Group;
+    enemies: Group;
 
-    constructor(group: Phaser.Physics.Arcade.Group) {
-        this.group = group;
+    constructor(projectiles: Group, enemies: Group) {
+        this.projectiles = projectiles;
+        this.enemies = enemies;
     }
 
     spawn_projectile(scene: Scene, projectile: Projectile) {
@@ -27,12 +32,25 @@ export default class EntityFactory {
         }
     }
 
+    spawn_enemy(scene: Scene, pos: { x: number; y: number }) {
+        const enemy = new Enemy({
+            scene: scene,
+            pos,
+            speed: 60,
+        });
+
+        enemy.setCollideWorldBounds(true);
+        this.enemies.add(enemy);
+
+        return enemy;
+    }
+
     private spawn_bullet(scene: Scene, projectile: Projectile) {
         const { pos, angle, speed } = projectile;
 
         const bullet = new Bullet(scene, pos.x, pos.y);
 
-        this.group.add(bullet);
+        this.projectiles.add(bullet);
 
         bullet.setRotation(angle);
         bullet.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
