@@ -1,8 +1,9 @@
-type MoveAxis = {
+export type MoveAxis = {
     x: number;
     y: number;
 };
-type AimDirection = {
+
+export type AimDirection = {
     x: number;
     y: number;
 };
