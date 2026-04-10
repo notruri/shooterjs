@@ -17,7 +17,7 @@ export type PlayerState = {
 export default class Player extends Actor {
     shooting: boolean = false;
     alive: boolean = true;
-    shoot: ShootFn = () => {};
+    shoot: ShootFn;
 
     constructor({ shoot, texture = 'player', ...props }: PlayerProps) {
         super({ ...props, texture });
@@ -30,6 +30,7 @@ export default class Player extends Actor {
 
         if (!this.alive) {
             this.reset_state(input);
+            return;
         }
 
         this.move(input);
@@ -55,6 +56,7 @@ export default class Player extends Actor {
                 kind: 'bullet',
                 pos: { x: this.x, y: this.y },
                 angle: this.rotation,
+                owner: this,
                 speed: 300,
             });
 

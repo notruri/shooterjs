@@ -46,6 +46,7 @@ export default class Enemy extends Actor {
             kind: 'bullet',
             pos: { x: this.x, y: this.y },
             angle: this.rotation,
+            owner: this,
             speed: 250,
         });
 

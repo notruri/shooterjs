@@ -95,17 +95,44 @@ export default class EntityManager {
 
         this.scene.physics.add.overlap(
             this.projectiles,
-            this.enemies,
-            (projectile, enemy) => {
-                const target = enemy as Enemy;
+            this.player,
+            (_player, _projectiles) => {
+                const player = _player as Player;
+                const projectile = _projectiles as ProjectileEnt;
 
                 projectile.destroy();
+                player.health -= 10;
+
+                if (player.health <= 0) {
+                    player.alive = false;
+                    player.destroy();
+                }
+            },
+            (_player, _projectiles) => {
+                const player = _player as Player;
+                const projectile = _projectiles as ProjectileEnt;
+                return projectile.owner !== player
+            },
+        );
+
+        this.scene.physics.add.overlap(
+            this.projectiles,
+            this.enemies,
+            (projectile, enemy) => {
+                const bullet = projectile as ProjectileEnt;
+                const target = enemy as Enemy;
+
+                bullet.destroy();
                 target.health -= 10;
 
                 if (target.health <= 0) {
                     target.alive = false;
                     target.destroy();
                 }
+            },
+            (projectile, enemy) => {
+                const bullet = projectile as ProjectileEnt;
+                return bullet.owner !== enemy;
             },
         );
     }

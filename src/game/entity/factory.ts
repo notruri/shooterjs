@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import Bullet from '@/game/models/bullet';
-import { Pos } from '@/game/models/entity';
+import Entity, { Pos } from '@/game/models/entity';
 import { Enemy } from '@/game/models';
 
 type Group = Phaser.Physics.Arcade.Group;
@@ -9,6 +9,7 @@ export type Projectile = {
     kind: ProjectileKind;
     pos: Pos;
     angle: number;
+    owner?: Entity;
     speed: number;
 };
 
@@ -54,9 +55,9 @@ export default class EntityFactory {
     }
 
     private spawn_bullet(scene: Scene, projectile: Projectile) {
-        const { pos, angle, speed } = projectile;
+        const { pos, angle, owner, speed } = projectile;
 
-        const bullet = new Bullet(scene, pos.x, pos.y);
+        const bullet = new Bullet(scene, pos.x, pos.y, owner);
 
         this.projectiles.add(bullet);
 
